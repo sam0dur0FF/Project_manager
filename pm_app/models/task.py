@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
 from django.db import models
 from enum import Enum
-from pm_app.models import Project, Tag
-
-
-
 
 class StatusEnum(Enum):
     NEW ='New'
@@ -34,16 +31,16 @@ class Task(models.Model):
     STATUS_CHOICES = StatusEnum.choices()
     PRIORITY_CHOICES = PriorityEnum.choices()
 
-    title = models.CharField(min_length=10, unique=True)
+    title = models.CharField(validators=[MinLengthValidator(10)], max_length=255, unique=True)
     description = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='new')
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='new')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateTimeField()
     is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True, default=None)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE)
     assignee = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
