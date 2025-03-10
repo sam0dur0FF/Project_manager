@@ -3,7 +3,7 @@ from django.db import models
 
 class ProjectFile(models.Model):
     name = models.CharField(max_length=120, verbose_name="Название файла")
-    file = models.FileField(upload_to="проекты/", verbose_name="Файл")
+    file = models.FileField(upload_to="documents/", verbose_name="Файл")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания файла")
 
     class Meta:
