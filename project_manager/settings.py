@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.tasks',
-    # 'pm_app',
+    'apps.projects',
 ]
 
 MIDDLEWARE = [
