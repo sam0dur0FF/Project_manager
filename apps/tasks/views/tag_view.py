@@ -13,7 +13,7 @@ class TagView(APIView):
         if not tags.exists():
             return Response({'error': 'No tags found'}, status=status.HTTP_204_NO_CONTENT)
         serializer = TagSerializer(tags, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def get_objects(self):
         return Tag.objects.all()
