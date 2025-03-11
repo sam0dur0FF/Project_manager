@@ -48,3 +48,4 @@ class TagDetailApiView(APIView):
         tag = self.get_object(pk)
         tag.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
