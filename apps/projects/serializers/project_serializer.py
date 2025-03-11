@@ -9,3 +9,9 @@ class AllProjectsSerializer(serializers.ModelSerializer):
         exclude = [
             'files',
         ]
+
+class ProjectDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = 'name', 'description', 'created_at', 'count_of_files'
+
