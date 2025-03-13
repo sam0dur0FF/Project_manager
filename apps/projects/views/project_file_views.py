@@ -23,14 +23,12 @@ class ProjectFileListAPIView(APIView):
         project_files = self.get_objects(project_name)
         if not project_files.exists():
             return Response({'error': 'No files found'}, status=status.HTTP_204_NO_CONTENT)
-        serializer = AllProjectFilesSerializer(project_files, many=True)
+        serializer = self.get_serializer(project_files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = CreateProjectFileSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
