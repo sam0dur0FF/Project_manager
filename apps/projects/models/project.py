@@ -15,9 +15,5 @@ class Project(models.Model):
     def count_of_files(self):
         return self.files.count()
 
-
-
-
-
     def __str__(self):
         return self.name
