@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-EXTENSTIONS = ['.csv', '.doc', '.pdf', '.xlsx', '.png']
+EXTENSTIONS = ['.csv', '.doc', '.pdf', '.xlsx', '.png', '.jpg', '.jpeg', '.gif', '.webp']
 DOC_DIR = "documents/"
 
 def check_extension(file_name):
