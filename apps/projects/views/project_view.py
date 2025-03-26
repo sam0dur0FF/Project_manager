@@ -60,3 +60,10 @@ class ProjectDetailAPIView(APIView):
         project = self.get_object(pk)
         project.delete()
         return Response({"message": "Project was deleted successful!"}, status=status.HTTP_204_NO_CONTENT)
+
+
+# check_extension
+# any(file_name.endswith(i) for i in EXTENSION)
+#
+# with open('.gitignore') as gitignore:
+#     print()

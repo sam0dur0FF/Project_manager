@@ -19,7 +19,7 @@ class Task(models.Model):
     is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True, default=None)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasks')
-    assignee = models.OneToOneField(User, on_delete=models.CASCADE, related_name='task')
+    assignee = models.OneToOneField(User, on_delete=models.CASCADE, related_name='task', null=True, blank=True)
     tag = models.ManyToManyField(Tag, blank=True, related_name='tasks')
 
     def __str__(self):
