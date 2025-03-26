@@ -36,5 +36,5 @@ class TaskDetailAPIView(RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return TaskDetailSerializer
-        elif self.request.method in ['POST','PUT']:
+        elif self.request.method in ['PUT', 'PATCH']:
             return CreateUpdateTaskSerializer

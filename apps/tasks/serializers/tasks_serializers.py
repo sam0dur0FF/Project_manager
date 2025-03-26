@@ -44,7 +44,6 @@ class CreateUpdateTaskSerializer(serializers.ModelSerializer):
             'priority',
             'project',
             'tag',
-            'assignee',
             'deadline',
         ]
 
