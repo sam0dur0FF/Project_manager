@@ -12,7 +12,10 @@ class AllTasksSerializer(serializers.ModelSerializer):
         slug_field='name',
         read_only=True,
     )
-
+    assignee = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True,
+    )
 
     class Meta:
         model = Task
@@ -21,7 +24,7 @@ class AllTasksSerializer(serializers.ModelSerializer):
             'status',
             'priority',
             'project',
-            'assignee__email',
+            'assignee',
             'deadline',
         ]
 
@@ -32,8 +35,6 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         queryset=Project.objects.all(),
     )
 
-
-
     class Meta:
         model = Task
         fields = [
@@ -42,6 +43,7 @@ class CreateTaskSerializer(serializers.ModelSerializer):
             'priority',
             'project',
             'tag',
+            'assignee',
             'deadline',
         ]
 
@@ -62,15 +64,15 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         return value
 
     def validate_project(self, value):
-        result = Project.objects.filter_by(name=value)
+        result = Project.objects.filter(name=value)
         if not result:
             raise serializers.ValidationError('Project does not exist')
         return value
 
     def validate_tag(self, value):
-        all_unique_tags_name = set(Tag.objects.values_list('name', flat=True))
+        all_unique_tags_name = Tag.objects.filter(name__in=value)
 
-        if not all_unique_tags_name.issuperset(value):
+        if not all_unique_tags_name:
             raise serializers.ValidationError('Tags not found')
         return value
 
@@ -82,8 +84,7 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        tags = validated_data.pop('tags', [])
+        tags = validated_data.pop('tag', [])
         instance = Task.objects.create(**validated_data)
-        instance.tags.set(tags)
+        instance.tag.set(tags)
         return instance
-
