@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
 from apps.projects.models import Project
+from apps.projects.serializers.project_serializer import ProjectShortInfoSerializer
 from apps.tasks.choices.priority import PriorityEnum
 from apps.tasks.models import Task, Tag
 
@@ -29,7 +30,7 @@ class AllTasksSerializer(serializers.ModelSerializer):
         ]
 
 
-class CreateTaskSerializer(serializers.ModelSerializer):
+class CreateUpdateTaskSerializer(serializers.ModelSerializer):
     project = serializers.SlugRelatedField(
         slug_field='name',
         queryset=Project.objects.all(),
@@ -88,3 +89,19 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         instance = Task.objects.create(**validated_data)
         instance.tag.set(tags)
         return instance
+
+    def update(self, instance, validated_data):
+        tags = validated_data.pop('tag', [])
+        instance.tag.set(tags)
+        for k, v in validated_data.items():
+            setattr(instance, k, v)
+        instance.save()
+        return instance
+
+
+class TaskDetailSerializer(serializers.ModelSerializer):
+    project = ProjectShortInfoSerializer()
+
+    class Meta:
+        model = Task
+        exclude = ['updated_at', 'deleted_at']
