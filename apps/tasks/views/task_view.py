@@ -24,7 +24,7 @@ class AllTasksListAPIView(ListCreateAPIView):
         project_name = self.request.query_params.get('project')
         employee_name = self.request.query_params.get('employee')
         if project_name:
-            queryset = queryset.filter_by(project__name=project_name)
+            queryset = queryset.filter(project__name=project_name)
         if employee_name:
             queryset = queryset.filter(assignee__name=employee_name)
         return queryset
